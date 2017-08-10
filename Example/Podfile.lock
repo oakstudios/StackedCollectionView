@@ -1,0 +1,16 @@
+PODS:
+  - StackedCollectionView (1.0.0)
+
+DEPENDENCIES:
+  - StackedCollectionView (from `../`)
+
+EXTERNAL SOURCES:
+  StackedCollectionView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  StackedCollectionView: eefd7f5cbc14c7d46385aaaf945ef8ab58d3e2cd
+
+PODFILE CHECKSUM: fa69e6319626dffce4cf5497cb37955204985aa5
+
+COCOAPODS: 1.2.1

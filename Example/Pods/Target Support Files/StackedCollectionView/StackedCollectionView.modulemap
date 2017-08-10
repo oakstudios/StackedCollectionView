@@ -1,0 +1,6 @@
+framework module StackedCollectionView {
+  umbrella header "StackedCollectionView-umbrella.h"
+
+  export *
+  module * { export * }
+}

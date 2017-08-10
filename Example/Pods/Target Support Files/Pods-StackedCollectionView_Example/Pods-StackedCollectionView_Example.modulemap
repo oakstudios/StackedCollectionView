@@ -1,0 +1,6 @@
+framework module Pods_StackedCollectionView_Example {
+  umbrella header "Pods-StackedCollectionView_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
