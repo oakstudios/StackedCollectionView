@@ -17,7 +17,7 @@ pod 'StackedCollectionView', '~> 1.0'
 
 StackedCollectionView supports iOS 9.0+.
 
-## Example
+## Credits
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
