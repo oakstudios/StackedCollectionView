@@ -3,7 +3,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'StackedCollectionView'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'Drag, drop, and combine items into stacks.'
   s.homepage         = 'https://github.com/oakstudios/StackedCollectionView'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }

@@ -542,17 +542,17 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         selectedItemSnapshotView?.center = fingerPoint
     }
     
-    public func updateSelectedItemSnapshotViewIfNecessary() {
-        guard
-            let selectedItemSourceIndexPath = self.selectedItemSourceIndexPath,
-            let cell = collectionView?.cellForItem(at: selectedItemSourceIndexPath)
-        else {
-            return
-        }
-        cell.alpha = 1.0
-        updateSnapshotViewForCell(at: selectedItemSourceIndexPath)
-        cell.alpha = 0.0
-    }
+//    public func updateSelectedItemSnapshotViewIfNecessary() {
+//        guard
+//            let selectedItemSourceIndexPath = self.selectedItemSourceIndexPath,
+//            let cell = collectionView?.cellForItem(at: selectedItemSourceIndexPath)
+//        else {
+//            return
+//        }
+//        cell.alpha = 1.0
+//        updateSnapshotViewForCell(at: selectedItemSourceIndexPath)
+//        cell.alpha = 0.0
+//    }
     
     func updateItemLayoutIfNecessary() {
         
@@ -642,7 +642,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         switch layoutAttributes.representedElementCategory {
         case .cell:
             if layoutAttributes.indexPath == selectedItemDestinationIndexPath {
-                layoutAttributes.alpha = 0.0
+                layoutAttributes.isHidden = true
             }
         default:
             break
