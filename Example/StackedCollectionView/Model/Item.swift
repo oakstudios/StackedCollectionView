@@ -33,15 +33,13 @@ class Item {
     class func getArray() -> [Item] {
         var items = [Item]()
         
-        let mainResourcePath = URL(string: Bundle.main.resourcePath!)
-        let resourcePath = mainResourcePath?.appendingPathComponent("Images")
-        let resourcesContent = try! FileManager().contentsOfDirectory(at: resourcePath!, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
-        
-        for url in resourcesContent {
-            let item = Item()
-            item.name = url.deletingPathExtension().lastPathComponent
-            item.image = UIImage(contentsOfFile: url.path)
-            items.append(item)
+        if let imageURLs = Bundle.main.urls(forResourcesWithExtension: "png", subdirectory: nil) {
+            for url in imageURLs {
+                let item = Item()
+                item.name = url.deletingPathExtension().lastPathComponent
+                item.image = UIImage(contentsOfFile: url.path)
+                items.append(item)
+            }
         }
         
         return items

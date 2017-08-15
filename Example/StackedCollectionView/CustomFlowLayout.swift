@@ -48,6 +48,7 @@ class CustomFlowLayout: StackedFlowLayout {
     }
     
     func setupLayout() {
+        gestureTriggerRadius = 30.0
         minimumInteritemSpacing = Constant.Margin
         minimumLineSpacing = Constant.Margin
         scrollDirection = .vertical

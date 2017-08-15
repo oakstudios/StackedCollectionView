@@ -58,7 +58,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
     }
-    
+
 }
 
 // MARK: UICollectionViewDataSource
@@ -90,6 +90,10 @@ extension ViewController: UICollectionViewDataSource {
 // MARK: StackedCollectionViewDelegate
 
 extension ViewController: StackedCollectionViewDelegate {
+    
+    func collectionViewGestureDidMoveOutsideTriggerRadius(_ collectionView: UICollectionView) {
+        print("Gesture moved outside trigger radius")
+    }
     
     func collectionView(_ collectionView: UICollectionView, animationControllerFor indexPath: IndexPath) -> UICollectionViewCellAnimatedTransitioning? {
         return CustomTransitionAnimator()
