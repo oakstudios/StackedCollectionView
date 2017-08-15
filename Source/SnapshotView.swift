@@ -34,26 +34,33 @@ public class SnapshotView: UIView {
         var heightConstraint: NSLayoutConstraint!
     }
     
-    var normal: ViewContainer!
-    var drag: ViewContainer!
-    var stack: ViewContainer!
+    var state: UICollectionViewCellState = .unknown
     
-    var allViewContainers: [ViewContainer] {
-        return [normal, drag, stack]
+    var normalViewContainer: ViewContainer?
+    var dragViewContainer: ViewContainer?
+    var stackViewContainer: ViewContainer?
+    
+    var allViewContainers: [ViewContainer?] {
+        return [normalViewContainer, dragViewContainer, stackViewContainer]
     }
     
-    init(frame: CGRect, normalView: UIView, dragView: UIView, stackView: UIView) {
-        super.init(frame: frame)
-        
-        normal = add(view: normalView)
-        drag = add(view: dragView)
-        stack = add(view: stackView)
-        
-        showNormal()
+    func set(normalView: UIView) {
+        normalViewContainer?.view.removeFromSuperview()
+        normalViewContainer = nil
+        normalViewContainer = add(view: normalView)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func set(dragView: UIView) {
+        dragViewContainer?.view.removeFromSuperview()
+        dragViewContainer = nil
+        dragViewContainer = add(view: dragView)
+        
+    }
+    
+    func set(stackView: UIView) {
+        stackViewContainer?.view.removeFromSuperview()
+        stackViewContainer = nil
+        stackViewContainer = add(view: stackView)
     }
     
     func add(view: UIView) -> ViewContainer {
@@ -70,30 +77,36 @@ public class SnapshotView: UIView {
     }
     
     func showNormal() {
-        show(showViewContainer: normal)
+        guard let normalViewContainer = self.normalViewContainer else { return }
+        show(showViewContainer: normalViewContainer)
+        state = .normal
     }
     
     func showDrag() {
-        show(showViewContainer: drag)
+        guard let dragViewContainer = self.dragViewContainer else { return }
+        show(showViewContainer: dragViewContainer)
+        state = .drag
     }
     
     func showStack() {
-        show(showViewContainer: stack)
+        guard let stackViewContainer = self.stackViewContainer else { return }
+        show(showViewContainer: stackViewContainer)
+        state = .stackDrag
     }
     
     func showVanished() {
         for viewContainer in allViewContainers {
-            viewContainer.widthConstraint.constant = 0.0
-            viewContainer.heightConstraint.constant = 0.0
+            viewContainer?.widthConstraint.constant = 0.0
+            viewContainer?.heightConstraint.constant = 0.0
         }
         layoutIfNeeded()
     }
     
     func show(showViewContainer: ViewContainer) {
         for viewContainer in allViewContainers {
-            viewContainer.view.alpha = viewContainer.view == showViewContainer.view ? 1.0 : 0.0
-            viewContainer.widthConstraint.constant = showViewContainer.size.width
-            viewContainer.heightConstraint.constant = showViewContainer.size.height
+            viewContainer?.view.alpha = viewContainer?.view == showViewContainer.view ? 1.0 : 0.0
+            viewContainer?.widthConstraint.constant = showViewContainer.size.width
+            viewContainer?.heightConstraint.constant = showViewContainer.size.height
         }
         layoutIfNeeded()
     }

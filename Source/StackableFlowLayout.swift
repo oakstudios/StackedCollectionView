@@ -28,6 +28,7 @@ import UIKit
 @objc public protocol StackedCollectionViewDelegate {
     @objc optional func collectionView(_ collectionView: UICollectionView, willBeginDraggingItemAt indexPath: IndexPath)
     @objc optional func collectionView(_ collectionView: UICollectionView, didBeginDraggingItemAt indexPath: IndexPath)
+    @objc optional func collectionViewGestureDidMoveOutsideTriggerRadius(_ collectionView: UICollectionView)
     @objc optional func collectionView(_ collectionView: UICollectionView, willEndDraggingItemAt indexPath: IndexPath)
     @objc optional func collectionView(_ collectionView: UICollectionView, didEndDraggingItemAt indexPath: IndexPath)
     
@@ -63,6 +64,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
     public var stackTriggerZone: CGFloat = 0.6
     public var longPressGestureDuration: CFTimeInterval = 0.15
     public var maxTriggerVelocity: CGFloat = 200.0
+    public var gestureTriggerRadius: CGFloat = 12.0
     
     // Internal
     public var longPressGestureRecognizer: UILongPressGestureRecognizer?
@@ -159,6 +161,20 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
     }
     private var _autoScroll: (direction: AutoScrollDirection, magnitude: CGFloat)?
     private var displayLink: CADisplayLink?
+    var gestureOrigin: CGPoint?
+    var gestureDidMoveOutsideTriggerRadius: Bool {
+        get {
+            return _gestureDidMoveOutsideTriggerRadius
+        }
+        set {
+            guard newValue != _gestureDidMoveOutsideTriggerRadius else { return }
+            _gestureDidMoveOutsideTriggerRadius = newValue
+            if _gestureDidMoveOutsideTriggerRadius, let collectionView = self.collectionView {
+                delegate?.collectionViewGestureDidMoveOutsideTriggerRadius?(collectionView)
+            }
+        }
+    }
+    var _gestureDidMoveOutsideTriggerRadius = false
     
     override public init() {
         super.init()
@@ -205,10 +221,8 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
             
             delegate?.collectionView?(collectionView, willBeginDraggingItemAt: sourceIndexPath)
             
-            let dragSnapshotView = snapshotViewOfCell(at: sourceIndexPath, ofState: .drag)
-            let stackSnapshotView = snapshotViewOfCell(at: sourceIndexPath, ofState: .stackDrag)
-            let normalSnapshotView = snapshotViewOfCell(at: sourceIndexPath, ofState: .normal)
-            selectedItemSnapshotView = SnapshotView(frame: sourceCollectionViewCell.frame, normalView: normalSnapshotView, dragView: dragSnapshotView, stackView: stackSnapshotView)
+            selectedItemSnapshotView = SnapshotView(frame: sourceCollectionViewCell.frame)
+            updateSnapshotViewForCell(at: selectedItemSourceIndexPath!)
             collectionView.addSubview(selectedItemSnapshotView!)
             
             delegate?.collectionView?(collectionView, didBeginDraggingItemAt: sourceIndexPath)
@@ -290,6 +304,8 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
                         self.longPressGestureRecognizer?.isEnabled = true
                         self.selectedItemSnapshotView?.removeFromSuperview()
                         self.selectedItemSnapshotView = nil
+                        self.gestureDidMoveOutsideTriggerRadius = false
+                        self.gestureOrigin = nil
                         self.hapticFeedback()
                         self.delegate?.collectionView?(collectionView, didEndDraggingItemAt: stackDestinationIndexPath)
                         self.invalidateLayout()
@@ -323,6 +339,8 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
                         self.longPressGestureRecognizer?.isEnabled = true
                         self.selectedItemSnapshotView?.removeFromSuperview()
                         self.selectedItemSnapshotView = nil
+                        self.gestureDidMoveOutsideTriggerRadius = false
+                        self.gestureOrigin = nil
                         self.hapticFeedback()
                         self.delegate?.collectionView?(collectionView, didEndDraggingItemAt: destinationIndexPath)
                         if
@@ -342,6 +360,8 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
             selectedItemStackDestinationIndexPath = nil
             selectedItemSnapshotView?.removeFromSuperview()
             selectedItemSnapshotView = nil
+            gestureDidMoveOutsideTriggerRadius = false
+            gestureOrigin = nil
             
         default:
             break
@@ -421,7 +441,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
             }
             
             if autoScroll == nil {
-                updateSelectedItemSnapshotViewIfNecessary()
+                updateSnapshotCenterPointIfNecessary()
                 
                 if
                     abs(gesture.velocity(in: collectionView).x) < maxTriggerVelocity,
@@ -494,7 +514,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         }
         
         updateFingerPoint()
-        updateSelectedItemSnapshotViewIfNecessary()
+        updateSnapshotCenterPointIfNecessary()
         
         if let newOffset = contentOffset + translation {
             collectionView.contentOffset = newOffset
@@ -508,11 +528,30 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         let newFingerPoint = panGestureRecognizer.location(in: collectionView)
         guard newFingerPoint != fingerPoint else { return }
         fingerPoint = newFingerPoint
+        
+        if gestureOrigin == nil {
+            gestureOrigin = fingerPoint
+        } else if distance(gestureOrigin!, fingerPoint) > gestureTriggerRadius {
+            gestureDidMoveOutsideTriggerRadius = true
+        }
+        
     }
     
-    func updateSelectedItemSnapshotViewIfNecessary() {
+    func updateSnapshotCenterPointIfNecessary() {
         guard selectedItemSnapshotView?.center != fingerPoint else { return }
         selectedItemSnapshotView?.center = fingerPoint
+    }
+    
+    public func updateSelectedItemSnapshotViewIfNecessary() {
+        guard
+            let selectedItemSourceIndexPath = self.selectedItemSourceIndexPath,
+            let cell = collectionView?.cellForItem(at: selectedItemSourceIndexPath)
+        else {
+            return
+        }
+        cell.alpha = 1.0
+        updateSnapshotViewForCell(at: selectedItemSourceIndexPath)
+        cell.alpha = 0.0
     }
     
     func updateItemLayoutIfNecessary() {
@@ -603,7 +642,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         switch layoutAttributes.representedElementCategory {
         case .cell:
             if layoutAttributes.indexPath == selectedItemDestinationIndexPath {
-                layoutAttributes.isHidden = true
+                layoutAttributes.alpha = 0.0
             }
         default:
             break
@@ -671,13 +710,28 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationWillResignActive, object: nil)
     }
     
+    func updateSnapshotViewForCell(at indexPath: IndexPath) {
+        guard let selectedItemSnapshotView = self.selectedItemSnapshotView else { return }
+        selectedItemSnapshotView.set(dragView: snapshotViewOfCell(at: indexPath, ofState: .drag))
+        selectedItemSnapshotView.set(stackView: snapshotViewOfCell(at: indexPath, ofState: .stackDrag))
+        selectedItemSnapshotView.set(normalView: snapshotViewOfCell(at: indexPath, ofState: .normal))
+        switch selectedItemSnapshotView.state {
+        case .drag:
+            selectedItemSnapshotView.showDrag()
+        case .stackDrag:
+            selectedItemSnapshotView.showStack()
+        default:
+            selectedItemSnapshotView.showNormal()
+        }
+    }
+    
     func snapshotViewOfCell(at indexPath: IndexPath, ofState state: UICollectionViewCellState) -> UIView {
         
         guard
             let collectionView = self.collectionView,
             let cell = collectionView.cellForItem(at: indexPath)
-            else {
-                return UIView()
+        else {
+            return UIView()
         }
         
         let animationController = animationControllerFor(indexPath: indexPath)
@@ -711,6 +765,10 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         let minY = cell.bounds.height * (1.0 - stackTriggerZone) / 2
         let maxY = cell.bounds.height - minY
         return minX < fingerPointInCell.x && fingerPointInCell.x < maxX && minY < fingerPointInCell.y && fingerPointInCell.y < maxY
+    }
+    
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        return hypot(a.x - b.x, a.y - b.y)
     }
     
     func hapticFeedback() {
