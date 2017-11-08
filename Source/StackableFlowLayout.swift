@@ -201,7 +201,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
     
     // MARK: Gestures
     
-    func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
         
         guard let collectionView = self.collectionView else { return }
         
@@ -370,7 +370,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         
     }
     
-    func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         
         guard let collectionView = self.collectionView /*, extraLongGestureTimer == nil */ else { return }
         
@@ -461,14 +461,14 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         
     }
     
-    func handleApplicationWillResignActive(_ notification: NSNotification) {
+    @objc func handleApplicationWillResignActive(_ notification: NSNotification) {
         panGestureRecognizer?.isEnabled = false
         panGestureRecognizer?.isEnabled = true
     }
     
     // MARK: Layout
     
-    func handleAutoScroll(_ displayLink: CADisplayLink) {
+    @objc func handleAutoScroll(_ displayLink: CADisplayLink) {
         
         guard let autoScroll = self.autoScroll, let collectionView = self.collectionView else { return }
         

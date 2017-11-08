@@ -28,7 +28,3 @@ import UIKit
 struct Constant {
     static let Margin: CGFloat = 16.0
 }
-
-struct CellReuseIdentifier {
-    static let CustomCell = "CustomCollectionViewCell"
-}
