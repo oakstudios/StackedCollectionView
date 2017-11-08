@@ -27,6 +27,8 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
+    static let identifier = "CustomCollectionViewCell"
+    
     var items: [Item]? {
         didSet {
             if let items = items {

@@ -3,11 +3,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'StackedCollectionView'
-  s.version          = '1.0.2'
+  s.version          = '2.0.0'
   s.summary          = 'Drag, drop, and combine items into stacks.'
   s.homepage         = 'https://github.com/oakstudios/StackedCollectionView'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Alex Givens' => 'alex@oakmade.com' }
+  s.author           = { 'Alex Givens' => 'alex@oakmade.com', 'Oak LLC' => 'info@oakmade.com' }
   s.source           = { :git => 'https://github.com/oakstudios/StackedCollectionView.git', :tag => s.version.to_s }
   s.ios.deployment_target = '9.0'
   s.source_files = 'Source/**/*'

@@ -45,13 +45,13 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         collectionView.delegate = self
         collectionView.stackedDelegate = self
         collectionView.stackedDataSource = self
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CellReuseIdentifier.CustomCell)
+        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
         
         view.addSubview(collectionView)
         topLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.topAnchor).isActive = true
         view.leftAnchor.constraint(equalTo: collectionView.leftAnchor).isActive = true
         view.rightAnchor.constraint(equalTo: collectionView.rightAnchor).isActive = true
-        bottomLayoutGuide.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
     }
     
     override func viewWillLayoutSubviews() {
@@ -70,7 +70,7 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellReuseIdentifier.CustomCell, for: indexPath) as! CustomCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         if let item = items[indexPath.item] as? Item {
             cell.items = [item]
         } else if let items = items[indexPath.item] as? [Item] {
