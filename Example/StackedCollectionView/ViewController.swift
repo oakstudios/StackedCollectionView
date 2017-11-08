@@ -51,7 +51,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         topLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.topAnchor).isActive = true
         view.leftAnchor.constraint(equalTo: collectionView.leftAnchor).isActive = true
         view.rightAnchor.constraint(equalTo: collectionView.rightAnchor).isActive = true
-        bottomLayoutGuide.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
     }
     
     override func viewWillLayoutSubviews() {

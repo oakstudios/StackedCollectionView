@@ -271,7 +271,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = WGR9T9JH4L;
+						DevelopmentTeam = B34U9MBMKJ;
 						LastSwiftMigration = 0910;
 					};
 				};
@@ -527,7 +527,7 @@
 			baseConfigurationReference = 0B6F72293BE15548F8D3D0D5 /* Pods-StackedCollectionView_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WGR9T9JH4L;
+				DEVELOPMENT_TEAM = B34U9MBMKJ;
 				INFOPLIST_FILE = StackedCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -545,7 +545,7 @@
 			baseConfigurationReference = 8CE4292995C01433B489AF42 /* Pods-StackedCollectionView_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WGR9T9JH4L;
+				DEVELOPMENT_TEAM = B34U9MBMKJ;
 				INFOPLIST_FILE = StackedCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
