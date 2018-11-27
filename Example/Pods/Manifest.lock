@@ -1,5 +1,5 @@
 PODS:
-  - StackedCollectionView (2.0.1)
+  - StackedCollectionView (3.0.0)
 
 DEPENDENCIES:
   - StackedCollectionView (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  StackedCollectionView: 186074cd7d4d7a4f07701c268c1244234a01a671
+  StackedCollectionView: 2f065ecec4926633ceec82965e2b6db901c32552
 
 PODFILE CHECKSUM: 63eca1bfcca3b5ce681a61e75f376609b50aa40f
 
