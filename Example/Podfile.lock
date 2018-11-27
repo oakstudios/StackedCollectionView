@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  StackedCollectionView: 2f065ecec4926633ceec82965e2b6db901c32552
+  StackedCollectionView: 38ea93408e2048309e293bcb71fff81f7cdbcb58
 
 PODFILE CHECKSUM: 63eca1bfcca3b5ce681a61e75f376609b50aa40f
 

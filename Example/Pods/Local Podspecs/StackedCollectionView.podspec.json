@@ -15,9 +15,10 @@
     "git": "https://github.com/oakstudios/StackedCollectionView.git",
     "tag": "3.0.0"
   },
+  "swift_version": "4.2",
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "Source/**/*",
+  "source_files": "Source/**/*.swift",
   "frameworks": "UIKit"
 }
