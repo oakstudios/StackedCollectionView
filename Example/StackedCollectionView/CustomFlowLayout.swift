@@ -31,7 +31,7 @@ class CustomFlowLayout: StackedFlowLayout {
     var maxItemWidth: CGFloat = 256.0
     var labelsHeight: CGFloat = 44.0
     
-    var inset: UIEdgeInsets = UIEdgeInsetsMake(Constant.Margin, Constant.Margin, Constant.Margin, Constant.Margin) {
+    var inset: UIEdgeInsets = UIEdgeInsets(top: Constant.Margin, left: Constant.Margin, bottom: Constant.Margin, right: Constant.Margin) {
         didSet {
             setupLayout()
         }
