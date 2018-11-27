@@ -1,8 +1,7 @@
 //
 //  CustomFlowLayout.swift
 //
-//  Created by Alex Givens http://alexgivens.com on 5/5/17
-//  Copyright © 2017 Oak, LLC (https://oak.is)
+//  Copyright © 2018 Oak, LLC (https://oak.is)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +30,7 @@ class CustomFlowLayout: StackedFlowLayout {
     var maxItemWidth: CGFloat = 256.0
     var labelsHeight: CGFloat = 44.0
     
-    var inset: UIEdgeInsets = UIEdgeInsetsMake(Constant.Margin, Constant.Margin, Constant.Margin, Constant.Margin) {
+    var inset: UIEdgeInsets = UIEdgeInsets(top: Constant.Margin, left: Constant.Margin, bottom: Constant.Margin, right: Constant.Margin) {
         didSet {
             setupLayout()
         }

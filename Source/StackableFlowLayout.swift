@@ -1,8 +1,7 @@
 //
 //  StackableFlowLayout.swift
 //
-//  Created by Alex Givens http://alexgivens.com on 5/5/17
-//  Copyright © 2017 Oak, LLC (https://oak.is)
+//  Copyright © 2018 Oak, LLC (https://oak.is)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -155,7 +154,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
             displayLink = nil
             if _autoScroll != nil {
                 displayLink = CADisplayLink(target: self, selector: #selector(handleAutoScroll(_:)))
-                displayLink!.add(to: RunLoop.main, forMode: .commonModes)
+                displayLink!.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
             }
         }
     }
@@ -688,7 +687,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         panGestureRecognizer!.maximumNumberOfTouches = 1
         collectionView.addGestureRecognizer(panGestureRecognizer!)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillResignActive(_:)), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     private func tearDownCollectionView() {
@@ -707,7 +706,7 @@ open class StackedFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDel
         }
         panGestureRecognizer = nil
         
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     func updateSnapshotViewForCell(at indexPath: IndexPath) {
