@@ -42,7 +42,7 @@ StackedCollectionView supports iOS 9.0+, Swift 3, and Xcode 8.0.
 
 ## Credits
 
-Created by [Alex Givens](http://alexgivens.com) for [Oak](https://oak.is).
+Created by [Oak](https://oak.is) for [Dropmark](https://www.dropmark.com).
 
 Portions of the reordering logic are referenced from [LXReorderableCollectionViewFlowLayout](https://github.com/lxcid/LXReorderableCollectionViewFlowLayout) and [this blog post](http://blog.karmadust.com/drag-and-rearrange-uicollectionviews-through-layouts/).
 

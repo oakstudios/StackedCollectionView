@@ -1,8 +1,7 @@
 //
 //  ViewController.swift
 //
-//  Created by Alex Givens http://alexgivens.com on 5/5/17
-//  Copyright © 2017 Oak, LLC (https://oak.is)
+//  Copyright © 2018 Oak, LLC (https://oak.is)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
