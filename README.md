@@ -21,7 +21,7 @@ To run the example project, clone the repo, and run `pod install` from the *Exam
 Install the library through [CocoaPods](http://cocoapods.org). Add the following line to your *Podfile*, then run `pod install`.
 
 ```ruby
-pod 'StackedCollectionView', '~> 2.0'
+pod 'StackedCollectionView', '~> 3.0'
 ```
 
 Be sure to import the library when needed.
@@ -31,6 +31,10 @@ import StackedCollectionView
 ```
 
 ## Migration
+
+### Version 3.0.0
+
+This version requires Xcode 10.0 and Swift 4.2.
 
 ### Version 2.0.0
 
@@ -52,4 +56,4 @@ Example images provided by [Unsplash](https://unsplash.com).
 
 The MIT License (MIT)
 
-Copyright (c) 2017 Oak, LLC [https://oak.is](https://oak.is)
+Copyright (c) 2018 Oak, LLC [https://oak.is](https://oak.is)
